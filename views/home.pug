@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Alfreds Home
+
+        link(rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Oswald&amp;family=Source+Sans+Pro&amp;display=swap")
+        link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css")
+        link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/gridlex/2.7.1/gridlex.min.css")
+        link(rel="stylesheet" type="text/css" href="/static/css/master.css")
+    body
+        aside#sidebar
+            a.title(href="/") Alfreds Home
+            nav
+                // Main Pages
+                .header Main
+                a(href="/")
+                    .icon.fa-fw.fas.fa-home
+                    .text Home
+
+        #content
+            .container
+                .grid
+                    .col-12
+                        header
+                            a.icon(href="/home/") HOME
+
+                    .col-4
+                        .card
+                            .card-title Contribution
+                            .card-content
+                                p G MAN
+
+        #footer
