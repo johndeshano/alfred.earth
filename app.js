@@ -13,7 +13,7 @@ const model_user = require("./models/user.js");
 //* -----------------------------
 dotenv.config();
 const app = express();
-app.set("port", 80);
+app.set("port", process.env.PORT);
 app.set("view engine", "pug");
 app.set("views", __dirname + "/views/");
 
@@ -54,15 +54,9 @@ client.on("message", function(pMessage){
         pMessage.channel.send("sup bitch");
     }
 
-    if(pMessage.content.toLowerCase() == "alfred start listening"){
+    if(pMessage.content.toLowerCase() == "alfred go"){
         pMessage.react("👍")
     }
-
-    var new_message = new model_message({
-        
-    });
-
-
 });
 
 client.login(process.env.DISCORD_TOKEN);
