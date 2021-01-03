@@ -13,7 +13,7 @@ const model_user = require("./models/user.js");
 //* -----------------------------
 dotenv.config();
 const app = express();
-app.set("port", 8080);
+app.set("port", 80);
 app.set("view engine", "pug");
 app.set("views", __dirname + "/views/");
 
