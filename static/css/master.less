@@ -84,84 +84,6 @@ p {
 	}
 }
 
-@sidebar-width: 200px;
-@sidebar-background: @background-secondary;
-@sidebar-margin: @generic-margin;
-#sidebar {
-	position: fixed;
-	top: 0;
-	left: 0;
-	margin: @sidebar-margin;
-	height: calc(100vh - @sidebar-margin * 2);
-	width: calc(@sidebar-width - @sidebar-margin);
-	background-color: @sidebar-background;
-	border-radius: 5px;
-	overflow: hidden;
-
-	.title {
-		display: block;
-		text-decoration: none;
-		background-color: @primary;
-		color: black;
-		font-size: 28px;
-		text-align: center;
-		letter-spacing: 2px;
-		padding: 15px 0;
-		font-weight: bold;
-	}
-
-	.header {
-		color: lighten(@primary, 15);
-		font-weight: bold;
-		text-indent: 10px;
-		margin-top: 15px;
-		margin-bottom: 5px;
-	}
-
-	.bottom {
-		width: 100%;
-		position: absolute;
-		bottom: 0;
-	}
-
-	nav {
-		display: flex;
-		flex-direction: column;
-		padding-bottom: 10px;
-		a {
-			color: @primary;
-			text-decoration: none;
-			padding: 10px 0;
-			font-size: 1.1em;
-			margin: 0 10px;
-			border-radius: 8px;
-			transition: background-color ease-in-out 140ms;
-
-			@nav-icon-size: 35px;
-			.icon {
-				display: inline-block;
-				background-color: @primary;
-				color: black;
-				width: @nav-icon-size;
-				height: @nav-icon-size;
-				line-height: @nav-icon-size;
-				text-align: center;
-				border-radius: 5px;
-				margin-left: 10px;
-			}
-			.text {
-				display: inline-block;
-				text-indent: 8px;
-				font-weight: 500;
-			}
-
-			&:hover {
-				background-color: lighten(@sidebar-background, 2);
-			}
-		}
-	}
-}
-
 @header-height: 62px;
 header {
 	background-color: @primary;
@@ -191,8 +113,7 @@ header {
 #content {
 	display: block;
 	position: relative;
-	margin-left: @sidebar-width;
-	width: calc(100% - @sidebar-width);
+	width: 100%;
 }
 
 .container {
@@ -201,21 +122,34 @@ header {
 	padding: @generic-margin;
 }
 
-.card {
+.card, .card-stat {
 	background-color: @background-secondary;
 	border-radius: 5px;
 	overflow: hidden;
 	box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.4);
 	height: 100%;
+
 	.card-title {
 		padding: 8px 15px;
 		background-color: @primary;
 		color: black;
 		font-size: 24px;
 		font-weight: 500;
+		font-weight: 800;
 	}
+
 	.card-content {
 		padding: 10px;
+	}
+
+	&.card-stat{
+		.card-title{
+			text-align: center;
+		}
+		.card-content{
+			text-align: center;
+			font-size: 1.5rem;
+		}
 	}
 }
 

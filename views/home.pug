@@ -1,53 +1,67 @@
-<!DOCTYPE html>
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Alfreds Home
+extends _template
 
-        link(rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Oswald&amp;family=Source+Sans+Pro&amp;display=swap")
-        link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css")
-        link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/gridlex/2.7.1/gridlex.min.css")
-        link(rel="stylesheet" type="text/css" href="/static/css/master.css")
-    body
-        aside#sidebar
-            a.title(href="/") Alfreds Home
-            nav
-                // Main Pages
-                .header Main
-                a(href="/")
-                    .icon.fa-fw.fas.fa-home
-                    .text Home
+block body
+    .container
+        .grid
+            .col-2
+                .card-stat
+                    .card-title Uptime
+                    .card-content #{Math.floor(discord.uptime / 1000)} seconds
 
-        #content
-            .container
-                .grid
-                    .col-12
-                        header
-                            a.icon(href="/home/") HOME
+            .col-2
+                .card-stat
+                    .card-title Servers
+                    .card-content #{guilds.length}
 
-                    .col-4_xs-12_sm-12_lg-6
-                        .card
-                            .card-title Contribution
-                            .card-content
-                                h4 Big love for the homies
-                                table
-                                    tr
-                                        th Name
-                                        th Amount
-                                        th Date
-                                    tr
-                                        td D'squavious
-                                        td $5.00
-                                        td Jan 3rd 2021
-                                    tr
-                                        td Tanskii
-                                        td $5.00
-                                        td Jan 3rd 2021
-                                    tr
-                                        td Father
-                                        td $0.20
-                                        td Jan 3rd 2021
-                                    
+            .col-2
+                .card-stat
+                    .card-title Messages Cached
+                    .card-content 0
 
-        #footer
+            .col-2
+                .card-stat
+                    .card-title Messages Learned
+                    .card-content 0
+
+            .col-2
+                .card-stat
+                    .card-title Users Cached
+                    .card-content 0
+        .grid
+            .col-4
+                .card
+                    .card-title Guilds
+                    .card-content
+                        table
+                            tr
+                                th Guild Name
+                                th User Count
+                            each server in guilds
+                                tr
+                                    td=server.name
+                                    td 10
+                            else
+                                p ahh
+        .grid
+            .col-4
+                .card
+                    .card-title Contributions
+                    .card-content
+                        h4 Big love for the homies making alfredo the best he can be
+                        table
+                            tr
+                                th Name
+                                th Amount
+                                th Date
+                            tr
+                                td D'squavious
+                                td $5.00
+                                td Jan 3rd 2021
+                            tr
+                                td Tanskii
+                                td $5.00
+                                td Jan 3rd 2021
+                            tr
+                                td Father
+                                td $0.20
+                                td Jan 3rd 2021
