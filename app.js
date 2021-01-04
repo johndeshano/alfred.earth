@@ -8,6 +8,8 @@ const lessMiddleware = require("less-middleware");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 
+const router = require("./router.js");
+
 const modCommands = require("./modules/commands.js");
 
 const model_message = require("./models/message.js");
@@ -96,6 +98,8 @@ app.use(compression());
 //* --------------------
 //* --- View Routing ---
 //* --------------------
+app.use(router);
+
 
 
 //* ----------------------
