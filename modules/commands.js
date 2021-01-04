@@ -124,7 +124,7 @@ AddCommand("Purge", "purge", function(pMessage, a_szArgs){
 //* -----------------------
 const commands = function(pMessage){
     // Reply an insult if he is DMEd
-    if(pMessage.guild == undefined && (pMessage.author.id != 795139163309473812 || pMessage.author.id != 362274445253148693)){
+    if(pMessage.guild == undefined && pMessage.author.id != 795139163309473812){
         pMessage.channel.send(a_szRandomMessage[Math.floor(Math.random() * a_szRandomMessage.length)]);
     }
 
