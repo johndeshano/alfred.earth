@@ -1,3 +1,4 @@
+const fs = require("fs");
 const discord = require("discord.js");
 const express = require("express");
 const morgan = require("morgan");
@@ -7,20 +8,45 @@ const lessMiddleware = require("less-middleware");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 
+const modCommands = require("./modules/commands.js");
+
 const model_message = require("./models/message.js");
 const model_user = require("./models/user.js");
+
+
+
+//* ----------------------------
+//* --- Enviroment Variables ---
+//* ----------------------------
+dotenv.config();
+
+// Make sure process variable username exits
+const szDBUsername = process.env.DATABASE_USERNAME;
+if(szDBUsername == undefined || szDBUsername == ""){
+    console.log(chalk.red("[Datbase] ") + "Invalid Username Variable");
+    process.exit(1);
+}
+
+// Make sure process variable password exits
+const szDBPassword = process.env.DATABASE_PASSWORD;
+if(szDBPassword == undefined || szDBPassword == ""){
+    console.log(chalk.red("[Datbase] ") + "Invalid Password Variable");
+    process.exit(1);
+}
+
+// Check if port is valid
+const iPort = parseInt(process.env.PORT);
+if(iPort == undefined || iPort <= 0 || iPort > 65535){
+    console.log(chalk.red("Invalid port provided, exiting..."));
+    process.exit(1);
+}
+
+
 
 //* -----------------------------
 //* --- Express Configuration ---
 //* -----------------------------
 const app = express();
-dotenv.config();
-
-// Check if port is valid
-if(process.env.PORT == undefined || process.env.PORT <= 0){
-    console.log(chalk.red("Invalid port provided, exiting..."));
-    process.exit(0);
-}
 
 app.set("port", process.env.PORT);
 app.set("view engine", "pug");
@@ -31,24 +57,21 @@ app.set("views", __dirname + "/views/");
 //* -------------------------
 //* --- Discord Bot Setup ---
 //* -------------------------
+// Create Discord Client
 const client = new discord.Client();
 
+// Set express variable
+app.set("discord", client);
+
+// Client is ready and logged in
 client.on("ready", function(){
     console.log(chalk.cyan("[Discord]") + " At your service");
 });
 
+// When a user sends a message
 client.on("message", function(pMessage){
-    if(pMessage.content.toLowerCase() == "hi alfred"){
-        pMessage.channel.send("sup bitch");
-    }
-
-    if(pMessage.content.toLowerCase() == "alfred go"){
-        pMessage.react("👍")
-    }
-
-    if(pMessage.author.username == "Nrgy"){
-        pMessage.reply("kys");
-    }
+    // Run commands module
+    modCommands(pMessage);
 });
 
 client.login(process.env.DISCORD_TOKEN);
@@ -73,26 +96,18 @@ app.use(compression());
 //* --------------------
 //* --- View Routing ---
 //* --------------------
-app.get("/", function(req, res){
-    res.locals.title = "Home";
-    res.locals.discord = client;
-    res.locals.guilds = [];
-
-    // Convert map to array for pugjs
-    client.guilds.cache.forEach(function(guild){
-        res.locals.guilds.push(guild);
-    });
-
-    res.render("home.pug");
-});
-
 
 
 //* ----------------------
 //* --- Database Setup ---
 //* ----------------------
-const szConnection = "mongodb+srv://alfred:4lMuicgK9osmBaZk@cluster0.iuhlh.mongodb.net/alfred?retryWrites=true&w=majority";
-mongoose.connect(szConnection, {useUnifiedTopology: true, useNewUrlParser: true })
+
+
+const szConnection = "mongodb+srv://" + szDBUsername + ":" + szDBPassword + "@cluster0.iuhlh.mongodb.net/alfred?retryWrites=true&w=majority";
+mongoose.connect(szConnection, {useUnifiedTopology: true, useNewUrlParser: true }, function(err){
+    if(err) throw err;
+    else console.log(chalk.cyan("[Database]") + " Connection successfully established");
+});
 
 
 
@@ -100,5 +115,5 @@ mongoose.connect(szConnection, {useUnifiedTopology: true, useNewUrlParser: true 
 //* --- Web Server Start Listening ---
 //* ----------------------------------
 app.listen(app.get("port"), function(){
-    console.log(chalk.green("[Express]") + " Started listing on port " + chalk.cyan(app.get("port")));
+    console.log(chalk.cyan("[Express]") + " Started listing on port " + chalk.cyan(app.get("port")));
 });
