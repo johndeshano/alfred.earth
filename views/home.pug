@@ -39,7 +39,7 @@ block body
                             each server in guilds
                                 tr
                                     td=server.name
-                                    td 10
+                                    td=server.members.cache.size
                             else
                                 p ahh
         .grid
