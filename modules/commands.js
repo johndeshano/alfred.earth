@@ -1,3 +1,49 @@
+const a_szRandomMessage = [
+    "Fuck off idiot",
+    "Don't care",
+    "LOL",
+    "Eat shit fuck face",
+    "Do you make eye-contact when you're fucking your dad in the ass?",
+    "CRY HERE ---> \\__/ <--- Africans need water.",
+    "You sound like your parents beat each other in front of you.",
+    "Don't be a loser, buy a rope and hang yourself.",
+    "My dad can beat your dad in a kissing contest",
+    "You're impossible to underestimate",
+    "You're not the dumbest person on the planet, but you better hope he doesn't die",
+    "Fuck you mayonaise monkey",
+    "If your father stayed he would be dissapointed",
+    "Such a shame your mother didn't swallow you",
+    "The best part of you ran down your mom's leg",
+    "If you where any stupider we'd have to water you",
+    "I envy people who have never met you",
+    "kys",
+    "You're the reason I'm pro choice",
+    "I bet your parents change the subject when their friends ask about you.",
+    "I'm genuinely excited to never talk to you again",
+    "I find the fact that you lived this long both surprising and disappointing",
+    "If I throw a stick, will you leave?",
+    "If you're here, who's home disappointing your parents?",
+    "You are the reason why shampoo has instructions",
+    "If you were any more inbred you would be a sandwich.",
+    "I hope you realize everyone's just putting up with you",
+    "The only person who is willing to fuck you is too lazy to jack off",
+    "You must have to sneak up on your hand to masturbate",
+    "I can understand why your parents abused you",
+    "You're about as useful as Anne Frank's drum kit",
+    "Filthy casual.",
+    "This is why everyone talks behind your back",
+    "I'm not mad, I'm just disappointed",
+    "You aren't worth the amount of money it would have cost to abort you",
+    "Have you ever considered suing your mother for drinking while she was pregnant with you?",
+    "I wish you were retarded, because then you'd at least have an excuse",
+    "If you want a comeback go look in your moms mouth",
+    "Save your breath, you'll need to to blow up your girlfriend later",
+    "With a face like yours, I’d be careful who and what I make fun of",
+    "Who's this clown?",
+    "You are weapons grade stupid",
+    "You're the kind of jew that makes me wish the Holocaust actually happened",
+]
+
 var a_pCommands = [];
 function AddCommand(szName, szCommand, fnCallback){
     a_pCommands.push({
@@ -83,6 +129,11 @@ AddCommand("Purge", "purge", function(pMessage, a_szArgs){
 //* --- Command Handler ---
 //* -----------------------
 const commands = function(pMessage){
+    // Reply an insult if he is DMEd
+    if(pMessage.guild == undefined && pMessage.author.id != 795139163309473812){
+        pMessage.channel.send(a_szRandomMessage[Math.floor(Math.random() * a_szRandomMessage.length)]);
+    }
+
     a_szMessageSplit = pMessage.content.split(" ");
 
     // Make sure command keyword "alfred" is used
@@ -113,6 +164,13 @@ const commands = function(pMessage){
     pMessage.content.toLowerCase() == "goodafternoon alfred" ||
     pMessage.content.toLowerCase() == "good afternoon alfred"){
         pMessage.channel.send("sup bitch");
+    }
+
+    if(pMessage.content.toLowerCase() == "bye alfred" ||
+    pMessage.content.toLowerCase() == "good bye alfred" ||
+    pMessage.content.toLowerCase() == "goodbye alfred" ||
+    pMessage.content.toLowerCase() == "fuck off alfred"){
+        pMessage.reply(a_szRandomMessage[Math.floor(Math.random() * a_szRandomMessage.length)])
     }
 }
 
