@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get("/", function(req, res){
     res.locals.title = "Home";
-    res.locals.discord = client;
+    res.locals.discord = req.get("discord");
     res.locals.guilds = [];
 
     // Convert map to array for pugjs
