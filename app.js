@@ -60,14 +60,12 @@ app.set("views", __dirname + "/views/");
 //* --- Discord Bot Setup ---
 //* -------------------------
 // Create Discord Client
-const client = new discord.Client();
-
-// Set express variable
-app.set("discord", client);
+var client = new discord.Client();
 
 // Client is ready and logged in
 client.on("ready", function(){
     console.log(chalk.cyan("[Discord]") + " At your service");
+    app.set("discord", client);
 });
 
 // When a user sends a message
@@ -76,7 +74,9 @@ client.on("message", function(pMessage){
     modCommands(pMessage);
 });
 
+// Set express variable
 client.login(process.env.DISCORD_TOKEN);
+
 
 
 
