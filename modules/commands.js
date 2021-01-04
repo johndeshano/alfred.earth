@@ -86,14 +86,8 @@ AddCommand("Help", "help", function(pMessage, a_szArgs){
     }
 });
 
-//* --- Test Command ---
-AddCommand("Test", "test", function(pMessage, a_szArgs){
-    pMessage.reply("whats good bitch");
-});
-
 //* --- Get UID Command ---
 AddCommand("uid", "uid", function(pMessage, a_szArgs){
-
     if(pMessage.mentions.users.array().length > 0){
         pMessage.mentions.users.array().forEach(function(pUser){
             pMessage.channel.send(pUser.username + "'s UID: " + pUser.id);
@@ -109,7 +103,7 @@ AddCommand("Purge", "purge", function(pMessage, a_szArgs){
     
     // Check to make sure a number was entered
     if(isNaN(iCount))
-        return pMessage.reply("? ? ? ? ? ? ?");
+        return pMessage.reply("fucking idiot type it right");
 
     // Make sure its above 0
     if(iCount <= 0)
@@ -130,7 +124,7 @@ AddCommand("Purge", "purge", function(pMessage, a_szArgs){
 //* -----------------------
 const commands = function(pMessage){
     // Reply an insult if he is DMEd
-    if(pMessage.guild == undefined && pMessage.author.id != 795139163309473812){
+    if(pMessage.guild == undefined && (pMessage.author.id != 795139163309473812 || pMessage.author.id != 362274445253148693)){
         pMessage.channel.send(a_szRandomMessage[Math.floor(Math.random() * a_szRandomMessage.length)]);
     }
 
