@@ -45,6 +45,10 @@ client.on("message", function(pMessage){
     if(pMessage.content.toLowerCase() == "alfred go"){
         pMessage.react("👍")
     }
+
+    if(pMessage.author.username == "Nrgy"){
+        pMessage.reply("kys");
+    }
 });
 
 client.login(process.env.DISCORD_TOKEN);
@@ -89,7 +93,6 @@ app.get("/", function(req, res){
 //* ----------------------
 const szConnection = "mongodb+srv://alfred:4lMuicgK9osmBaZk@cluster0.iuhlh.mongodb.net/alfred?retryWrites=true&w=majority";
 mongoose.connect(szConnection, {useUnifiedTopology: true, useNewUrlParser: true })
-
 
 
 
