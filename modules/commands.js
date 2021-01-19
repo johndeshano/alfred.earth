@@ -1,3 +1,5 @@
+const MutedUserModel = require("../models/muted_user.js");
+
 const a_szRandomMessage = [
     "Fuck off idiot",
     "Don't care",
@@ -42,6 +44,7 @@ const a_szRandomMessage = [
     "Who's this clown?",
     "You are weapons grade stupid",
     "You're the kind of jew that makes me wish the Holocaust actually happened",
+    "I bet you have bruised knees"
 ]
 
 var a_pCommands = [];
@@ -83,6 +86,66 @@ AddCommand("Help", "help", function(pMessage, a_szArgs){
         }
     }else{
         pMessage.reply("LOL");
+    }
+});
+
+//* --- Mute Command ---
+AddCommand("Mute", "mute", function(pMessage, a_szArgs){
+    if(a_szArgs.length > 0){
+        const pMuteUser = pMessage.mentions.users.first();
+
+        if(pMuteUser){
+            MutedUserModel.findOne({guild_id: pMessage.guild.id, user_id: pMuteUser.id}, function(err, pDBMutedUser){
+                if(err){
+                    pMessage.reply("shits broke oops lol tell ebraptus");
+                }else if(pDBMutedUser){
+                    pMessage.reply("User already muted");
+                    console.log(pDBMutedUser);
+                }else{
+                    // Add user to DB for muted users
+                    MutedUserModel.create({guild_id: pMessage.guild.id, user_id: pMuteUser.id}, function(err, pDBMutedUser){
+                        if(err){
+                            pMessage.reply("shits broke oops lol tell ebraptus");
+                            console.log(err);
+                        }else{
+                            pMessage.reply("That dipshit " + pMuteUser.username + " has been muted");
+                        }
+                    });
+                }
+            });
+        }else{
+            pMessage.reply("@ the person you want to mute dipshit");
+        }
+    }
+});
+
+//* --- Unmute Command ---
+AddCommand("Unmute", "unmute", function(pMessage, a_szArgs) {
+    if(a_szArgs.length > 0){
+        const pMuteUser = pMessage.mentions.users.first();
+
+        if(pMuteUser){
+            MutedUserModel.findOneAndDelete({guild_id: pMessage.guild.id, user_id: pMuteUser.id}, function(err, pDBMutedUser){
+                if(err){
+                    pMessage.reply("shits broke yell at ebraptus");
+                }else if(pDBMutedUser){
+                    pMessage.reply("Unmuting user: " + pMuteUser.username);
+                }else{
+                    pMessage.reply("Dipshit they arent muted");
+                }
+            });
+        }else{
+            pMessage.reply("@ the person you want to mute dipshit");
+        }
+    }
+});
+
+//* --- Disconnect Command ---
+AddCommand("Disconnect", "disconnect", function(pMessage, a_szArgs){
+    if(pMessage.mentions.users.array().length > 0){
+        pMessage.mentions.users.array().forEach(function(pUser){
+            pUser.disconnect();
+        })
     }
 });
 
@@ -152,18 +215,18 @@ const commands = function(pMessage){
     pMessage.content.toLowerCase() == "hey alfred" ||
     pMessage.content.toLowerCase() == "hello alfred" ||
     pMessage.content.toLowerCase() == "goodmorning alfred" ||
-    pMessage.content.toLowerCase() == "good morning alfred" ||
-    pMessage.content.toLowerCase() == "goodnight alfred" ||
-    pMessage.content.toLowerCase() == "good night alfred" ||
-    pMessage.content.toLowerCase() == "goodafternoon alfred" ||
-    pMessage.content.toLowerCase() == "good afternoon alfred"){
+    pMessage.content.toLowerCase() == "good morning alfred"){
         pMessage.channel.send("sup bitch");
     }
 
     if(pMessage.content.toLowerCase() == "bye alfred" ||
     pMessage.content.toLowerCase() == "good bye alfred" ||
+    pMessage.content.toLowerCase() == "goodnight alfred" ||
+    pMessage.content.toLowerCase() == "good night alfred" ||
+    pMessage.content.toLowerCase() == "goodafternoon alfred" ||
     pMessage.content.toLowerCase() == "goodbye alfred" ||
-    pMessage.content.toLowerCase() == "fuck off alfred"){
+    pMessage.content.toLowerCase() == "fuck off alfred" ||
+    pMessage.content.toLowerCase() == "good afternoon alfred"){
         pMessage.reply(a_szRandomMessage[Math.floor(Math.random() * a_szRandomMessage.length)])
     }
 }
