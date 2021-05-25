@@ -6,35 +6,8 @@ const compression = require("compression");
 const chalk = require("chalk");
 const lessMiddleware = require("less-middleware");
 const dotenv = require("dotenv");
-const mongoose = require("mongoose");
 
 const router = require("./router.js");
-
-const modCommands = require("./modules/commands.js");
-
-const model_message = require("./models/message.js");
-const model_user = require("./models/user.js");
-
-
-
-//* ----------------------------
-//* --- Enviroment Variables ---
-//* ----------------------------
-dotenv.config();
-
-// Make sure process variable username exits
-const szDBUsername = process.env.DATABASE_USERNAME;
-if(szDBUsername == undefined || szDBUsername == ""){
-    console.log(chalk.red("[Datbase] ") + "Invalid Username Variable");
-    process.exit(1);
-}
-
-// Make sure process variable password exits
-const szDBPassword = process.env.DATABASE_PASSWORD;
-if(szDBPassword == undefined || szDBPassword == ""){
-    console.log(chalk.red("[Datbase] ") + "Invalid Password Variable");
-    process.exit(1);
-}
 
 // Check if port is valid
 const iPort = parseInt(process.env.PORT);
@@ -53,30 +26,6 @@ const app = express();
 app.set("port", process.env.PORT);
 app.set("view engine", "pug");
 app.set("views", __dirname + "/views/");
-
-
-
-//* -------------------------
-//* --- Discord Bot Setup ---
-//* -------------------------
-// Create Discord Client
-var client = new discord.Client();
-
-// Client is ready and logged in
-client.on("ready", function(){
-    console.log(chalk.cyan("[Discord]") + " At your service");
-    app.set("discord", client);
-});
-
-// When a user sends a message
-client.on("message", function(pMessage){
-    // Run commands module
-    modCommands(pMessage);
-});
-
-// Set express variable
-client.login(process.env.DISCORD_TOKEN);
-
 
 
 
@@ -99,19 +48,6 @@ app.use(compression());
 //* --- View Routing ---
 //* --------------------
 app.use(router);
-
-
-
-//* ----------------------
-//* --- Database Setup ---
-//* ----------------------
-
-
-const szConnection = "mongodb+srv://" + szDBUsername + ":" + szDBPassword + "@cluster0.iuhlh.mongodb.net/alfred?retryWrites=true&w=majority";
-mongoose.connect(szConnection, {useUnifiedTopology: true, useNewUrlParser: true }, function(err){
-    if(err) throw err;
-    else console.log(chalk.cyan("[Database]") + " Connection successfully established");
-});
 
 
 
